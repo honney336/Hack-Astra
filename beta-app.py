@@ -1,16 +1,3 @@
-"""
-Beta App (AWS Cognito Misconfiguration)
-=======================================
-
-Problem:
-The AWS Cognito Identity Pool was misconfigured. Although it correctly provisioned unauthenticated credentials for the frontend, the IAM Trust Policy on the authenticated role (`mobileapp_cognito_auth_role`) lacked a strict condition check ensuring only authenticated users could assume it (e.g., missing a check on the `amr` claim).
-
-Solution:
-We can call the Cognito Identity API to generate an unauthenticated Web Identity Token. Because of the faulty trust policy, we can pass this unauthenticated Web Identity Token to the AWS Security Token Service (STS) via `AssumeRoleWithWebIdentity` to assume the authenticated IAM role. This escalates our privileges, allowing us to read the premium S3 bucket and exfiltrate the flag.
-
-Flag: FLAG{d0nt_tru5t_th3_c0gn1t0_4uth_r0l3_w1th0ut_c0nd1t10n}
-"""
-
 import boto3
 
 REGION = "us-east-1"
